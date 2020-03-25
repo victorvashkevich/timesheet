@@ -137,7 +137,7 @@ public class TimeSheetController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/{id_department}/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id_department}/{id}/", method = RequestMethod.GET)
     public ModelAndView timeSheetPage(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
         TimeSheet timeSheet = timeSheetService.getById(id);
@@ -183,7 +183,7 @@ public class TimeSheetController {
     public ModelAndView editTimeSheetRow(@ModelAttribute("timeSheetRow") TimeSheetRow timeSheetRow) {
         ModelAndView modelAndView = new ModelAndView();
         timeSheetService.editTimeSheetRow(timeSheetRow);
-        modelAndView.setViewName("redirect:/{id_department}/{id_timesheet}");
+        modelAndView.setViewName("redirect:/{id_department}/{id_timesheet}/");
         return modelAndView;
     }
 

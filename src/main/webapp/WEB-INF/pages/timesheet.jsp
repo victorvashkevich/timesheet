@@ -10,13 +10,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link href="<c:url value="/res/style.css"/>" rel="stylesheet" type="text/css">
     <title></title>
 </head>
 <body>
 <div>${timeSheet.department}</div>
 <div>Период ${timeSheet.period}</div>
 <c:set var="count" scope="page" value="1"/>
-<table>
+<table class="table">
     <tr>
         <th>№ п/п</th>
         <th>Сотрудник</th>

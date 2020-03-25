@@ -24,7 +24,7 @@
     <c:forEach var="ts" items="${timeSheets}">
         <tr>
             <td>${ts.id}</td>
-            <td><a href="/${department.id}/${ts.id}">${ts.period}</a></td>
+            <td><a href="/${department.id}/${ts.id}/">${ts.period}</a></td>
         </tr>
     </c:forEach>
 </table>
