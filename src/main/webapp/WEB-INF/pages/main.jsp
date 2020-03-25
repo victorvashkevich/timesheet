@@ -14,6 +14,7 @@
 <body>
 <div>${username}</div>
 
+<div>Доступные подразделения: </div>
 <table>
     <tr>
         <th>Код</th>

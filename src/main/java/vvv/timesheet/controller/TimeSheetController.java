@@ -242,4 +242,15 @@ public class TimeSheetController {
         modelAndView.setViewName("redirect:/{id_department}/{id_timesheet}");
         return modelAndView;
     }
+
+    @RequestMapping(value = "/{id_department}/{id_timesheet}/delete/{id_row}", method = RequestMethod.GET)
+    public ModelAndView deleteTimeSheetRow(@PathVariable int id_row) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        TimeSheetRow timeSheetRow = timeSheetService.getByRowId(id_row);
+        timeSheetService.deleteTimeSheetRow(timeSheetRow);
+        modelAndView.setViewName("redirect:/{id_department}/{id_timesheet}");
+        return modelAndView;
+
+    }
 }

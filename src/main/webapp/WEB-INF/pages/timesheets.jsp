@@ -12,6 +12,7 @@
     <title>Title</title>
 </head>
 <body>
+<div>Табеля подразделения</div>
 <div>${department}</div>
 <br/>
 
@@ -28,5 +29,6 @@
     </c:forEach>
 </table>
 <a href="/${department.id}/add">Добавить табель</a>
+<a href="/">Назад к подразделениям</a>
 </body>
 </html>

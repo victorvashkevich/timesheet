@@ -70,7 +70,7 @@ public class TimeSheetServiceImpl implements TimeSheetService {
     @Override
     @Transactional
     public void deleteTimeSheetRow(TimeSheetRow timeSheetRow) {
-
+        timeSheetDAO.deleteTimeSheetRow(timeSheetRow);
     }
 
     @Override

@@ -61,7 +61,11 @@
             <td>${timeSheetRow.day30}</td>
             <td>${timeSheetRow.day31}</td>
             <td>
-                <a href="/${timeSheet.department.id}/${timeSheet.id}/${timeSheetRow.id}">Ред</a>
+                <a href="/${timeSheet.department.id}/${timeSheet.id}/${timeSheetRow.id}">Редактировать</a>
+            </td>
+            <td>
+               <%-- <a href="/${timeSheet.department.id}/${timeSheet.id}/delete/${timeSheetRow.id}">Удалить</a> --%>
+               <a href="/${timeSheet.department.id}/${timeSheet.id}/delete/${timeSheetRow.id}/">Удалить</a>
             </td>
             <c:set var="count" value="${count+1}" scope="page"/>
         </tr>
@@ -69,5 +73,6 @@
 </table>
 <c:url value="/${timeSheet.department.id}/${timeSheet.id}/add" var="addurl"/>
 <a href="${addurl}">Добавить строку</a>
+<a href="/${timeSheet.department.id}">Назад к табелям</a>
 </body>
 </html>
