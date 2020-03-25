@@ -41,6 +41,11 @@ public class TimeSheetServiceImpl implements TimeSheetService {
     @Override
     @Transactional
     public void addTimeSheet(TimeSheet timeSheet) {
+
+        StringBuilder stringBuilder = new StringBuilder(timeSheet.getPeriod());
+        stringBuilder.replace(8,10,"01");
+        timeSheet.setPeriod(stringBuilder.toString());
+
         timeSheetDAO.addTimeSheet(timeSheet);
     }
 
