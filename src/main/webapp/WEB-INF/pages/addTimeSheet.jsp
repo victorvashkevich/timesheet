@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Добавление нового табеля</title>
 </head>
 <body>
 <div>Добавление нового табеля</div>
@@ -17,7 +17,8 @@
 <form action="${addurl}" method="post">
     <label for="period">Период</label>
     <input type="hidden" value="${id_department}" name="department">
-    <input type="text" name="period" id="period"> <!--name должно совпадать с полями в модели-->
+    <%--<input type="text" name="period" id="period"> --%><%--name должно совпадать с полями в модели--%>
+    <input type="date" name="period" id="period">
     <input type="submit" value="Добавить">
 </form>
 </body>

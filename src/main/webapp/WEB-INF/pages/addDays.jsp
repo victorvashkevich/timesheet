@@ -16,7 +16,6 @@
 
 <div>${employee.name}</div>
 <div>${timeSheet.period}</div>
-<div> часы${hoursWorked.day1}ч</div>
 <c:if test="${timeSheetRow.id==0}">
     <c:url value="/${timeSheet.department.id}/${timeSheet.id}/add/${employee.id}" var="editUrl"/>
 </c:if>
