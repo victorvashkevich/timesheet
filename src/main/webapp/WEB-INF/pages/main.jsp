@@ -22,7 +22,7 @@
             <td>${userdepartment.name}</td>-->
         <td>${userdepartment.code}</td>
         <!--<td><a href="/timesheets/${userdepartment.id}">${userdepartment.name}</a></td>-->
-        <td><a href="/${userdepartment.id}">${userdepartment.name}</a></td>
+        <td><a href="/${userdepartment.id}/">${userdepartment.name}</a></td>
     </tr>
 </c:forEach>
 </table>

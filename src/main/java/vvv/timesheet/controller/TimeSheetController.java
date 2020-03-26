@@ -54,6 +54,7 @@ public class TimeSheetController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView startPage() {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("main");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,22 +64,18 @@ public class TimeSheetController {
         int beginIndex = dn.indexOf("cn=")+4;
         int endIndex = dn.indexOf(",");
         String username = dn.substring(beginIndex,endIndex);
-        //modelAndView.addObject("username", principalName);
         modelAndView.addObject("username", username);
-        //List<Department> departments =  departmentService.getDepartments();
-        //User user = userService.getByName(principalName);
-//        List<User> users = userService.getUsers();
         User user = userService.getByName(principalName);
         List<Department> departments = departmentService.getDepartmentsByUser(user);
         modelAndView.addObject("userDepartments", departments);
-        //modelAndView.addObject("users", users);
 
         return modelAndView;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView timeSheetsPage(@PathVariable("id") String id) {
-        Department department  = departmentService.getById(id);
+    @RequestMapping(value = "/{id_department}/", method = RequestMethod.GET)
+    public ModelAndView timeSheetsPage(@PathVariable("id_department") String id_department) {
+
+        Department department  = departmentService.getById(id_department);
         ModelAndView modelAndView = new ModelAndView();
         List<TimeSheet> timeSheets = timeSheetService.getTimeSheetsByDepartment(department);
         modelAndView.addObject("timeSheets",timeSheets);

@@ -24,7 +24,7 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department",fetch = FetchType.EAGER)
     private List<TimeSheet> timeSheets;
 
     @Id

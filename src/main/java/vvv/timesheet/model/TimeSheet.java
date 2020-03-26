@@ -23,7 +23,7 @@ public class TimeSheet {
     @JoinColumn(name = "id_department")
     private Department department;
 
-    @OneToMany(mappedBy = "timeSheet")
+    @OneToMany(mappedBy = "timeSheet", fetch = FetchType.EAGER)
     private List<TimeSheetRow> timeSheetRows;
 
     public int getId() {
@@ -56,5 +56,19 @@ public class TimeSheet {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public List<TimeSheetRow> getTimeSheetRows() {
+        return timeSheetRows;
+    }
+    public String getEmployeesString() {
+
+        StringBuilder stringBuilder = new StringBuilder(" ");
+
+        for (TimeSheetRow timeSheetRow:timeSheetRows) {
+            stringBuilder.append(timeSheetRow.getEmployee().getShortName()).append(" ");
+        }
+
+        return stringBuilder.toString();
     }
 }

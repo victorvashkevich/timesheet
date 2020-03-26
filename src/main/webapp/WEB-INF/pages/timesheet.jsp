@@ -11,11 +11,11 @@
 <html>
 <head>
     <link href="<c:url value="/res/style.css"/>" rel="stylesheet" type="text/css">
-    <title>${timeSheet.department} Период ${timeSheet.period} </title>
+    <title>${timeSheet.department}: ${timeSheet.period} </title>
 </head>
 <body>
-<div>${timeSheet.department}</div>
-<div>Период ${timeSheet.period}</div>
+<div class="headers">${timeSheet.department}</div>
+<div>Период: ${timeSheet.period}</div>
 <c:set var="count" scope="page" value="1"/>
 <table class="timeSheetTable">
     <tr>
@@ -38,7 +38,6 @@
                 <a href="/${timeSheet.department.id}/${timeSheet.id}/${timeSheetRow.id}">Изменить</a>
             </td>
             <td class="timeSheetTd">
-               <%-- <a href="/${timeSheet.department.id}/${timeSheet.id}/delete/${timeSheetRow.id}">Удалить</a> --%>
                <a href="/${timeSheet.department.id}/${timeSheet.id}/delete/${timeSheetRow.id}/">Удалить</a>
             </td>
             <c:set var="count" value="${count+1}" scope="page"/>
@@ -47,6 +46,7 @@
 </table>
 <c:url value="/${timeSheet.department.id}/${timeSheet.id}/add" var="addurl"/>
 <a href="${addurl}">Добавить строку</a>
+::
 <a href="/${timeSheet.department.id}">Назад к табелям</a>
 </body>
 </html>

@@ -61,4 +61,17 @@ public class Employee {
     public String toString() {
         return name;
     }
+
+    public String getShortName() {
+
+        StringBuilder shortName = new StringBuilder();
+        String[] strings = name.split(" ");
+        shortName.append(strings[0])
+                .append(" ")
+                .append(strings[1].charAt(0))
+                .append(". ")
+                .append(strings[2].charAt(0))
+                .append(".");
+        return shortName.toString();
+    }
 }

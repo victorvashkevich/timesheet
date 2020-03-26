@@ -13,10 +13,7 @@
     <title>${department}</title>
 </head>
 <body>
-<div>Табеля подразделения</div>
-<div>${department}</div>
-<br/>
-
+<div class="headers">Табеля подразделения ${department}</div>
 <table>
     <tr>
         <th>№</th>
@@ -27,10 +24,12 @@
         <tr>
             <td>${ts.id}</td>
             <td><a href="/${department.id}/${ts.id}/">${ts.period}</a></td>
+            <td>${ts.employeesString}</td>
         </tr>
     </c:forEach>
 </table>
 <a href="/${department.id}/add">Добавить табель</a>
+::
 <a href="/">Назад к подразделениям</a>
 </body>
 </html>
