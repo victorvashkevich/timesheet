@@ -9,17 +9,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Табель учета рабочего времени</title>
+    <link href="<c:url value="/res/style.css"/>" rel="stylesheet" type="text/css">
+    <title>Табель:${username}</title>
 </head>
 <body>
-<div>${username}</div>
-
+<div class="headers">${username}</div>
 <div>Доступные подразделения: </div>
 <table>
-    <tr>
-        <th>Код</th>
-        <th>Наименование</th>
-    </tr>
     <c:forEach var="userdepartment" items="${userDepartments}">
     <tr>
         <!--<td>${userdepartment.code}</td>

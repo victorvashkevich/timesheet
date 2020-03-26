@@ -9,7 +9,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <link href="<c:url value="/res/style.css"/>" rel="stylesheet" type="text/css">
+    <title>${department}</title>
 </head>
 <body>
 <div>Табеля подразделения</div>
@@ -18,8 +19,9 @@
 
 <table>
     <tr>
-        <th>Код</th>
+        <th>№</th>
         <th>Период</th>
+        <th>Сотрудники</th>
     </tr>
     <c:forEach var="ts" items="${timeSheets}">
         <tr>

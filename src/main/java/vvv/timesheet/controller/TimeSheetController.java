@@ -76,56 +76,6 @@ public class TimeSheetController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/enterprises", method = RequestMethod.GET)
-    public ModelAndView enterprisesPage() {
-        List<Enterprise> enterprises = enterpriseService.allEnterprises();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("enterprises");
-        modelAndView.addObject("enterprisesList", enterprises);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/edit/{code}",method = RequestMethod.GET)
-    public ModelAndView editPage(@PathVariable("code") String code) {
-        Enterprise enterprise = enterpriseService.getByCode(code);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editPage");
-        modelAndView.addObject("enterprise", enterprise);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ModelAndView editEnterprise(@ModelAttribute("enterprise") Enterprise enterprise) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/enterprises");
-        enterpriseService.edit(enterprise);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ModelAndView addPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editPage");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView addEnterprise(@ModelAttribute("enterprise") Enterprise enterprise) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/enterprises");
-        enterpriseService.add(enterprise);
-        return modelAndView;
-    }
-
-    @RequestMapping(value="/delete/{code}", method = RequestMethod.GET)
-    public ModelAndView deleteFilm(@PathVariable("code") String code) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/enterprises");
-        Enterprise film = enterpriseService.getByCode(code);
-        enterpriseService.delete(film);
-        return modelAndView;
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView timeSheetsPage(@PathVariable("id") String id) {
         Department department  = departmentService.getById(id);
@@ -239,7 +189,7 @@ public class TimeSheetController {
         ModelAndView modelAndView = new ModelAndView();
         timeSheetRow.setTimeSheet(timeSheetService.getById(id_timesheet));
         timeSheetService.addTimeSheetRow(timeSheetRow);
-        modelAndView.setViewName("redirect:/{id_department}/{id_timesheet}");
+        modelAndView.setViewName("redirect:/{id_department}/{id_timesheet}/");
         return modelAndView;
     }
 
@@ -249,7 +199,7 @@ public class TimeSheetController {
         ModelAndView modelAndView = new ModelAndView();
         TimeSheetRow timeSheetRow = timeSheetService.getByRowId(id_row);
         timeSheetService.deleteTimeSheetRow(timeSheetRow);
-        modelAndView.setViewName("redirect:/{id_department}/{id_timesheet}");
+        modelAndView.setViewName("redirect:/{id_department}/{id_timesheet}/");
         return modelAndView;
 
     }

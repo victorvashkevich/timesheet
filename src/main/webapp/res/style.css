@@ -1,11 +1,31 @@
-.table {
+.timeSheetTable {
     border-spacing: 0 10px;
-    font:  bold 100% Georgia, serif;
-    margin: 40px auto;
-    text-shadow: 5px 5px 5px #3F3F7F;
-    background: #B1B9D9;
+    font: 100%  Georgia, serif;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.timeSheetTd {
+    border: 1px dotted black;
+    padding: 3px;
+    width: 45px;
     text-align: center;
-    vertical-align: middle;
-    width: 50%;
-    border: 10px solid blue;
+}
+
+
+.timeSheetTdEmployee {
+    border: 1px dotted black;
+    padding: 3px;
+    text-align: left;
+}
+.headers {
+    font: bold 100% "Droid Sans";
+}
+
+a:link {
+    color: darkblue;
+    text-decoration: none;
+}
+a:visited {
+    color: darkblue;
+    text-decoration: none;
 }
