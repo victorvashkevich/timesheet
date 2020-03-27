@@ -10,6 +10,9 @@
 <html>
 <head>
     <link href="<c:url value="/res/style.css"/>" rel="stylesheet" type="text/css">
+    <script src="/res/scripts.js"> </script>
+    <script src="/res/jquery-3.4.1.js"></script>
+
     <title>Табель:${username}</title>
 </head>
 <body>
@@ -35,5 +38,17 @@
         </tr>
     </c:forEach>
 </table>
+<input type="submit" id="mySubmit" value="departments">
+<script>
+    $("#mySubmit").click(function () {
+        $.ajax({
+            url: "fuck",
+            type: "get",
+            success: function (data) {
+                alert(data);
+            }
+        });
+    })
+</script>
 </body>
 </html>

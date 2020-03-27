@@ -200,4 +200,9 @@ public class TimeSheetController {
         return modelAndView;
 
     }
+
+    @RequestMapping(value = "/fuck", method = RequestMethod.GET)
+    public @ResponseBody String getFuck() {
+        return "fuck";
+    }
 }
