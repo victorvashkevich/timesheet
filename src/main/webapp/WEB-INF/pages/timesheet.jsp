@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="headers">${timeSheet.department}</div>
-<div>Период: ${timeSheet.period}</div>
+<div>Период: ${timeSheet.stringPeriod}</div>
 <c:set var="count" scope="page" value="1"/>
 <table class="timeSheetTable">
     <tr>
@@ -47,6 +47,6 @@
 <c:url value="/${timeSheet.department.id}/${timeSheet.id}/add" var="addurl"/>
 <a href="${addurl}">Добавить строку</a>
 ::
-<a href="/${timeSheet.department.id}">Назад к табелям</a>
+<a href="/${timeSheet.department.id}/">Назад к табелям</a>
 </body>
 </html>

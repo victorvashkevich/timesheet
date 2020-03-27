@@ -84,7 +84,7 @@ public class TimeSheet {
         Month month = Month.of(numberOfMonth);
         Locale loc = Locale.forLanguageTag("ru");
 
-        return month.getDisplayName(TextStyle.FULL_STANDALONE, loc)+" "+year;
+        return month.getDisplayName(TextStyle.FULL_STANDALONE, loc)+" "+year+"г.";
     }
 
     public int getNumberOfDays() {

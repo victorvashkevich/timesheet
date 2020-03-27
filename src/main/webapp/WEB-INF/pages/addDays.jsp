@@ -16,7 +16,7 @@
 <body>
 
 <div class="headers">${employee.name}</div>
-<div>Период: ${timeSheet.period}</div>
+<div>Период: ${timeSheet.stringPeriod}</div>
 <br>
 <c:if test="${timeSheetRow.id==0}">
     <c:url value="/${timeSheet.department.id}/${timeSheet.id}/add/${employee.id}" var="editUrl"/>
@@ -30,10 +30,19 @@
         <input type="hidden" value="${timeSheetRow.id}" name="id">
         <input type="hidden" value="${timeSheet.id}" name="timeSheet">
     </c:if>
-    <c:forEach var="i" begin="1" end="31">
-        <c:set var="number" scope="page" value="day${i}"></c:set>
-        <form:input path="${number}" value="${hoursWorked[number]}"/><br> <%-- если value заполнено - значение берется из него, иначе из модели по атрибуту path --%>
+    <table>
+    <c:forEach var="i" begin="1" end="${timeSheet.numberOfDays}">
+       <c:set var="number" scope="page" value="day${i}"/>
+        <tr>
+            <td>
+                <label for="dayOfMonth">${i}</label>
+            </td>
+            <td>
+                <form:input path="${number}" value="${hoursWorked[number]}" id="dayOfMonth"/><br> <%-- если value заполнено - значение берется из него, иначе из модели по атрибуту path --%>
+            </td>
+        </tr>
     </c:forEach>
+    </table>
     <c:if test="${timeSheetRow.id==0}">
         <input type="submit" value="Добавить">
     </c:if>
