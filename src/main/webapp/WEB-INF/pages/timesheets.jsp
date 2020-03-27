@@ -17,13 +17,13 @@
 <table class="timeSheetTable">
     <tr>
         <th class="timeSheetTd">№</th>
-        <th class="timeSheetTd">Период</th>
+        <th>Период</th>
         <th class="timeSheetTd">Сотрудники</th>
     </tr>
     <c:forEach var="ts" items="${timeSheets}">
         <tr>
             <td class="timeSheetTd">${ts.id}</td>
-            <td class="timeSheetTd"><a href="/${department.id}/${ts.id}/">${ts.stringPeriod}</a></td>
+            <td class="timeSheetTdPeriod"><a href="/${department.id}/${ts.id}/">${ts.stringPeriod}</a></td>
             <td class="timeSheetTdEmployee">${ts.employeesString}</td>
         </tr>
     </c:forEach>

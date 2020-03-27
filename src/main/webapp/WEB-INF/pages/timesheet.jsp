@@ -48,5 +48,7 @@
 <a href="${addurl}">Добавить строку</a>
 ::
 <a href="/${timeSheet.department.id}/">Назад к табелям</a>
+::
+<a href="/">Назад к подразделениям</a>
 </body>
 </html>
