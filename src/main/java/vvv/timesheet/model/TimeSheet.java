@@ -1,7 +1,10 @@
 package vvv.timesheet.model;
 
 import javax.persistence.*;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table(name = "timesheetdoc")
@@ -61,6 +64,7 @@ public class TimeSheet {
     public List<TimeSheetRow> getTimeSheetRows() {
         return timeSheetRows;
     }
+
     public String getEmployeesString() {
 
         StringBuilder stringBuilder = new StringBuilder(" ");
@@ -70,5 +74,22 @@ public class TimeSheet {
         }
 
         return stringBuilder.toString();
+    }
+
+    public String getStringPeriod() {
+
+        String year = period.substring(0,4);
+        int numberOfMonth = Integer.parseInt(period.substring(5,7));
+
+        Month month = Month.of(numberOfMonth);
+        Locale loc = Locale.forLanguageTag("ru");
+
+        return month.getDisplayName(TextStyle.FULL_STANDALONE, loc)+" "+year;
+    }
+
+    public int getNumberOfDays() {
+
+        Month month = Month.of(Integer.parseInt(period.substring(5,7)));
+        return month.maxLength();
     }
 }

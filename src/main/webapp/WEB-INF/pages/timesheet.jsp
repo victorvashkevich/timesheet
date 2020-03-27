@@ -21,7 +21,7 @@
     <tr>
         <th class="timeSheetTd">№ п/п</th>
         <th class="timeSheetTd">Сотрудник</th>
-        <с:forEach var="i" begin="1" end="31">
+        <с:forEach var="i" begin="1" end="${timeSheet.numberOfDays}">
             <th class="timeSheetTd">${i}</th>
         </с:forEach>
         <th colspan="2" class="timeSheetTd">Действия</th>
@@ -30,7 +30,7 @@
         <tr>
             <td class="timeSheetTd">${counter.count}</td>
             <td class="timeSheetTdEmployee">${timeSheetRow.employee}</td>
-            <c:forEach var="j" begin="1" end="31">
+            <c:forEach var="j" begin="1" end="${timeSheet.numberOfDays}">
                 <c:set var="myvar" scope="page" value="day${j}"/>
                 <td class="timeSheetTd">${timeSheetRow[myvar]}</td>
             </c:forEach>

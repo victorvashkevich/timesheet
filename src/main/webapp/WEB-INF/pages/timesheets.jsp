@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="headers">Табеля подразделения ${department}</div>
-<table>
+<table class="timeSheetTable">
     <tr>
         <th>№</th>
         <th>Период</th>
@@ -23,7 +23,7 @@
     <c:forEach var="ts" items="${timeSheets}">
         <tr>
             <td>${ts.id}</td>
-            <td><a href="/${department.id}/${ts.id}/">${ts.period}</a></td>
+            <td><a href="/${department.id}/${ts.id}/">${ts.stringPeriod}</a></td>
             <td>${ts.employeesString}</td>
         </tr>
     </c:forEach>
