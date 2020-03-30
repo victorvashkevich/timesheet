@@ -91,7 +91,9 @@ public class TimeSheetController {
         List<TimeSheetRow> timeSheetRows = timeSheetService.getTimeSheetRows(timeSheet);
         modelAndView.addObject("timeSheet", timeSheet);
         modelAndView.addObject("timeSheetRows", timeSheetRows);
-        modelAndView.setViewName("timesheet");
+        //пока меняем представление на другое, попробуем jquery
+        //modelAndView.setViewName("timesheet");
+        modelAndView.setViewName("timesheetnew");
         return modelAndView;
     }
 
@@ -201,8 +203,17 @@ public class TimeSheetController {
 
     }
 
-    @RequestMapping(value = "/fuck", method = RequestMethod.GET)
-    public @ResponseBody String getFuck() {
-        return "fuck";
+    //@RequestMapping(value = "/fuck", method = RequestMethod.GET, produces = "application/json")
+    //public @ResponseBody String getFuck(@RequestParam("id") String departmentId) {
+    @RequestMapping(value = "/fuck", method = RequestMethod.GET, produces = "application/json")
+    //public @ResponseBody List<Employee> getFuck(@RequestParam("id") String departmentId) {
+    //public @ResponseBody Department getFuck(@RequestParam("id") String departmentId) {
+    public @ResponseBody List<Employee> getFuck(@RequestParam("id") String departmentId) {
+   // public @ResponseBody String getFuck(@RequestBody Department department) {
+
+        int r=1;
+        Department department = departmentService.getById(departmentId);
+        List<Employee> employees = employeeService.getEmployeesByDepartment(department);
+        return employees;
     }
 }

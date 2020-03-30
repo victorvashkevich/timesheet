@@ -1,5 +1,7 @@
 package vvv.timesheet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,10 +19,12 @@ public class Enterprise {
     @Column(name="code")
     private String code;
 
-    @OneToMany(mappedBy = "enterprise")
+    @OneToMany(mappedBy = "enterprise", fetch = FetchType.EAGER) //делать EAGER очень плохо
+    @JsonIgnore
     private List<Department> departments;
 
     @OneToMany(mappedBy = "enterprise")
+    @JsonIgnore
     private List<Employee> employees;
 
     public String getName() {
