@@ -211,7 +211,6 @@ public class TimeSheetController {
     public @ResponseBody List<Employee> getFuck(@RequestParam("id") String departmentId) {
    // public @ResponseBody String getFuck(@RequestBody Department department) {
 
-        int r=1;
         Department department = departmentService.getById(departmentId);
         List<Employee> employees = employeeService.getEmployeesByDepartment(department);
         return employees;

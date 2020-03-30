@@ -1,5 +1,6 @@
 <%@ taglib prefix="с" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: vvv
@@ -69,12 +70,22 @@
             dataType: 'json',
             success: function (data) {
               //  $('#resp').html(data);
-                $('#dResp').html($('#departmentId').val());
-                let json = JSON.stringify(data);
-                $('#resp').html(json);
+                //$('#dResp').html($('#departmentId').val());
+                //let json = JSON.stringify(data);
+                //$('#resp').html(json);
+                let rowCount = $('#timeSheetTable tr').length;
+                $('#timeSheetTable').append('<tr id="newTr'+(rowCount+1)+'"></tr>');
+                $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd">'+rowCount+'</td>');
+                $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd" id="empTd'+(rowCount+1)+'"></td>');
+                $('#empTd'+(rowCount+1)).append('<select id="selectEmployee'+(rowCount+1)+'"></select>');
                 $.each(data,function (index, employee) {
-                    $('#dResp').html(employee.name);
+                    $('#selectEmployee'+(rowCount+1)).append('<option value="'+employee.id+'">'+employee.shortName+'</option>');
                 })
+                for (let i=1; i<=31;i++) {
+                    $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd">'+i+'</td>');
+                }
+                $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd">Изменить</td>');
+                $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd">Удалить</td>');
             },
             error: function (e) {
                 $('#dResp').html(e.responseText);
