@@ -17,6 +17,8 @@
 </head>
 <body>
 <input type="hidden" value="${timeSheet.department.id}" id="departmentId">
+<input type="hidden" value="${timeSheet.period}" id="period">
+
 <div class="headers">${timeSheet.department}</div>
 <div>Период: ${timeSheet.stringPeriod}</div>
 <c:set var="count" scope="page" value="1"/>
@@ -59,6 +61,7 @@
 <div id="dResp"></div>
 <script>
     $('#addRow').click(function () {
+
         $.ajax({
             url: '/fuck',
             method: 'get',
@@ -74,23 +77,64 @@
                 //let json = JSON.stringify(data);
                 //$('#resp').html(json);
                 let rowCount = $('#timeSheetTable tr').length;
-                $('#timeSheetTable').append('<tr id="newTr'+(rowCount+1)+'"></tr>');
-                $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd">'+rowCount+'</td>');
-                $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd" id="empTd'+(rowCount+1)+'"></td>');
-                $('#empTd'+(rowCount+1)).append('<select id="selectEmployee'+(rowCount+1)+'"></select>');
+                $('#timeSheetTable').append('<tr id="newTr'+rowCount+'"></tr>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTd">'+rowCount+'</td>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTd" id="empTd'+rowCount+'"></td>');
+                $('#empTd'+rowCount).append('<select class="selEmp" id="selectEmployee'+rowCount+'"></select>');
                 $.each(data,function (index, employee) {
-                    $('#selectEmployee'+(rowCount+1)).append('<option value="'+employee.id+'">'+employee.shortName+'</option>');
+                    $('#selectEmployee'+rowCount).append('<option value="'+employee.id+'">'+employee.shortName+'</option>');
                 })
                 for (let i=1; i<=31;i++) {
-                    $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd">'+i+'</td>');
+                    $('#newTr'+rowCount).append('<td class="timeSheetTd"><input type="text" size="4" id="inp'+rowCount+i+'"></td>');
                 }
-                $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd">Изменить</td>');
-                $('#newTr'+(rowCount+1)).append('<td class="timeSheetTd">Удалить</td>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTd">Изменить</td>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTd">Удалить</td>');
             },
             error: function (e) {
                 $('#dResp').html(e.responseText);
             }
         });
+    });
+    $('#timeSheetTable').on('change','.selEmp', function () {
+
+        let selectedValue = $('.selEmp option:selected').val();
+        //alert($(this).prop("id"));
+        //alert($(this).closest('tr').prop("id"));
+        $(this).closest('tr').find('td').each(function (cell) {
+            //alert($(this).html())
+            console.log($(this).html())
+        })
+
+        let row = $(this).closest('tr');
+        let cell =$('td', row).eq(0).html();
+
+        for (let i=1; i<=31; i++) {
+        }
+
+        $.ajax({
+            url: '/fuck1',
+            method: 'get',
+            data: ({
+                EmpId: selectedValue,
+                period: $('#period').val()
+            }),
+            dataType: 'json',
+            success: function (data) {
+
+                //$('#dResp').html(JSON.stringify(data));
+                //let json = JSON.stringify(data);
+                //alert($(this).closest("tr").id);
+                //alert(data['day1']);
+
+                for (let i=1; i<=31;i++) {
+                    $('#inp'+cell+i).val(data['day'+i])
+                }
+            },
+            error: function (e) {
+                $('#dResp').html(e.responseText);
+            }
+        });
+
     });
 </script>
 </body>

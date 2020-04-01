@@ -215,4 +215,13 @@ public class TimeSheetController {
         List<Employee> employees = employeeService.getEmployeesByDepartment(department);
         return employees;
     }
+
+    @RequestMapping(value = "/fuck1", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody HoursWorked getFuck1(@RequestParam("EmpId") String empId, @RequestParam("period") String period) {
+
+        Employee employee = employeeService.getById(empId);
+        HoursWorked hoursWorked = hoursWorkedService.get(employee, period);
+        return hoursWorked;
+
+    }
 }
