@@ -224,4 +224,13 @@ public class TimeSheetController {
         return hoursWorked;
 
     }
+
+    @RequestMapping(value = "/fuck3", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody String postFuck(@RequestParam("timeSheetId") String timeSheetId, @RequestParam("day1") String day1, @RequestParam("day2") String day2,
+                                         @RequestParam("empId") Employee employee) { // с фронта передаем id сотрудника, в контроллере получаем модель через конвертер
+
+
+        return timeSheetId;
+
+    }
 }

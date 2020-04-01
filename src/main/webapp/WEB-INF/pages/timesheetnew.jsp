@@ -16,8 +16,10 @@
     <title>${timeSheet.department}: ${timeSheet.period} </title>
 </head>
 <body>
+
 <input type="hidden" value="${timeSheet.department.id}" id="departmentId">
 <input type="hidden" value="${timeSheet.period}" id="period">
+<input type="hidden" value="${timeSheet.id}" id="timeSheetId">
 
 <div class="headers">${timeSheet.department}</div>
 <div>Период: ${timeSheet.stringPeriod}</div>
@@ -87,7 +89,7 @@
                 for (let i=1; i<=31;i++) {
                     $('#newTr'+rowCount).append('<td class="timeSheetTd"><input type="text" size="4" id="inp'+rowCount+i+'"></td>');
                 }
-                $('#newTr'+rowCount).append('<td class="timeSheetTd">Изменить</td>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" id="saveLink">Сохранить</a></td>');
                 $('#newTr'+rowCount).append('<td class="timeSheetTd">Удалить</td>');
             },
             error: function (e) {
@@ -102,11 +104,11 @@
         //alert($(this).closest('tr').prop("id"));
         $(this).closest('tr').find('td').each(function (cell) {
             //alert($(this).html())
-            console.log($(this).html())
+            //console.log($(this).html())
         })
 
         let row = $(this).closest('tr');
-        let cell =$('td', row).eq(0).html();
+        let cellHtml =$('td', row).eq(0).html();
 
         for (let i=1; i<=31; i++) {
         }
@@ -127,7 +129,7 @@
                 //alert(data['day1']);
 
                 for (let i=1; i<=31;i++) {
-                    $('#inp'+cell+i).val(data['day'+i])
+                    $('#inp'+cellHtml+i).val(data['day'+i])
                 }
             },
             error: function (e) {
@@ -136,6 +138,31 @@
         });
 
     });
+    $('#timeSheetTable').on('click','#saveLink', function () {
+
+        let selectedValueEmp = $(this).closest('tr').find('.selEmp').val();
+        let timeSheetId=$('#timeSheetId').val()
+
+        let row = $(this).closest('tr');
+        let cellHtml =$('td', row).eq(0).html();
+
+
+        let day1 = $('#inp'+cellHtml+'1').val();
+        let day2 = $('#inp'+cellHtml+'2').val();
+
+        $.ajax({
+            url: '/fuck3',
+            method: 'post',
+            data: {timeSheetId: timeSheetId, empId: selectedValueEmp, day1: day1, day2: day2},
+            success: function (data) {
+                $('#dResp').html(data);
+            },
+            error: function (e) {
+                $('#dResp').html(e.responseText);
+            }
+        })
+
+    })
 </script>
 </body>
 </html>
