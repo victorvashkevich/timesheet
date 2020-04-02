@@ -11,6 +11,7 @@ import vvv.timesheet.model.*;
 import vvv.timesheet.service.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TimeSheetController {
@@ -217,20 +218,42 @@ public class TimeSheetController {
     }
 
     @RequestMapping(value = "/fuck1", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody HoursWorked getFuck1(@RequestParam("EmpId") String empId, @RequestParam("period") String period) {
+    public @ResponseBody HoursWorked getFuck1(@RequestParam("employee") Employee employee, @RequestParam("period") String period) {
 
-        Employee employee = employeeService.getById(empId);
         HoursWorked hoursWorked = hoursWorkedService.get(employee, period);
         return hoursWorked;
 
     }
 
-    @RequestMapping(value = "/fuck3", method = RequestMethod.POST, produces = "application/json")
-    public @ResponseBody String postFuck(@RequestParam("timeSheetId") String timeSheetId, @RequestParam("day1") String day1, @RequestParam("day2") String day2,
-                                         @RequestParam("empId") Employee employee) { // с фронта передаем id сотрудника, в контроллере получаем модель через конвертер
+    @RequestMapping(value = "/fuck4", method = RequestMethod.POST)
+    //public @ResponseBody String postFuck(@RequestParam("timeSheet") TimeSheet timeSheet,  @RequestParam("employee") Employee employee) { // с фронта передаем id сотрудника, в контроллере получаем модель через конвертер
+    public @ResponseBody String postFuck(@RequestBody Map<String, Object> objectMap) {
 
 
-        return timeSheetId;
+        if ((int)objectMap.get("timeSheetRowId")==0) { //новая строка табеля
 
+            Employee employee = employeeService.getById((String)objectMap.get("employee"));
+            TimeSheet timeSheet = timeSheetService.getById((int)objectMap.get("timeSheet"));
+        }
+        else {
+
+        }
+
+        return "OK";
+    }
+
+//    @RequestMapping(value = "/fuck3", method = RequestMethod.POST)
+//    public @ResponseBody String postFuck2(@RequestBody Employee employee) {
+//
+//        employeeService.addEmployee(employee);
+//        return "OK";
+//    }
+
+    @RequestMapping(value = "/fuck3", method = RequestMethod.POST)
+    public @ResponseBody String postFuck2(@RequestBody TimeSheetRow timeSheetRow) {
+
+        timeSheetService.addTimeSheetRow(timeSheetRow);
+
+        return "OK";
     }
 }

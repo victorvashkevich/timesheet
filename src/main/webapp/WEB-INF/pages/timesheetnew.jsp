@@ -47,6 +47,7 @@
             <td class="timeSheetTd">
                 <a href="/${timeSheet.department.id}/${timeSheet.id}/delete/${timeSheetRow.id}/">Удалить</a>
             </td>
+            <td style="display: none" id="rowId">${timeSheetRow.id}</td>
             <c:set var="count" value="${count+1}" scope="page"/>
         </tr>
     </c:forEach>
@@ -117,7 +118,7 @@
             url: '/fuck1',
             method: 'get',
             data: ({
-                EmpId: selectedValue,
+                employee: selectedValue,
                 period: $('#period').val()
             }),
             dataType: 'json',
@@ -141,19 +142,47 @@
     $('#timeSheetTable').on('click','#saveLink', function () {
 
         let selectedValueEmp = $(this).closest('tr').find('.selEmp').val();
-        let timeSheetId=$('#timeSheetId').val()
+        let timeSheetId=$('#timeSheetId').val();
+        let rowId = $(this).closest('tr').find('#rowId').val();
+
+        if (typeof rowId == "undefined") {
+            rowId = 35;
+        }
 
         let row = $(this).closest('tr');
         let cellHtml =$('td', row).eq(0).html();
 
 
-        let day1 = $('#inp'+cellHtml+'1').val();
-        let day2 = $('#inp'+cellHtml+'2').val();
+        let day1val = $('#inp'+cellHtml+'1').val();
+        let day2val = $('#inp'+cellHtml+'2').val();
+
+        //let rowJSON = '{"employee":"'+selectedValueEmp+'","timeSheet":'+timeSheetId+',"timeSheetRowId":'+rowId+',';
+        //let rowJSON = '{"employee":{"'+selectedValueEmp+'",';
+        //let rowJSON = '{';
+        let rowJSON = '{"employee":{"id":"'+selectedValueEmp+'"},"timeSheet": {"id":'+timeSheetId+'},"id":'+rowId+',';
+
+        let timeSheetRowData = {};
+
+
+        for (let i=1; i<=31; i++) {
+            rowJSON=rowJSON+'"day'+i+'":"'+$('#inp'+cellHtml+i).val()+'",';
+            timeSheetRowData['day'+i] = $('#inp'+cellHtml+i).val();
+        }
+
+        rowJSON = rowJSON.substring(0,rowJSON.length-1)+"}";
+        console.log(rowJSON);
+        //console.log(JSON.stringify(timeSheetRowData));
 
         $.ajax({
             url: '/fuck3',
             method: 'post',
-            data: {timeSheetId: timeSheetId, empId: selectedValueEmp, day1: day1, day2: day2},
+            //data: JSON.stringify({employee: selectedValueEmp, timeSheet: timeSheetId, day1: day1val, day2: day2val}),
+            //data: '{"id": "eed6fa1c-63a2-11e2-b2bb-00219b8823c5", "name": "Иванов И.И."}',
+            //data: '{"id":"eed6fa1c-63a2-11e2-b2bb-00219b8823c5","name":"Вашкевич Виктор Владимирович","shortName":"Вашкевич В. В."}',
+            //data: JSON.stringify({id:"eed6fa1c-63a2-11e2-b2bb-00219b8823c5",name:"Вашкевич Виктор Владимирович",shortName:"Вашкевич В. В."}),
+            data: rowJSON,
+            contentType: 'application/json',
+            //data: {employee: selectedValueEmp, timeSheet: timeSheetId, hours: timeSheetRowData},
             success: function (data) {
                 $('#dResp').html(data);
             },

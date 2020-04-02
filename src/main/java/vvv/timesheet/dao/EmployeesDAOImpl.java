@@ -33,4 +33,10 @@ public class EmployeesDAOImpl implements EmployeeDAO {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Employee.class, id);
     }
+
+    @Override
+    public void addEmployee(Employee employee) {
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(employee);
+    }
 }

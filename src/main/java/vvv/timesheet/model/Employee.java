@@ -1,5 +1,7 @@
 package vvv.timesheet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class Employee {
     private Department department;
 
     @OneToMany(mappedBy = "employee")
+    @JsonIgnore
     private List<TimeSheetRow> timeSheetRows;
 
 

@@ -67,7 +67,8 @@ public class TimeSheetDAOImpl implements TimeSheetDAO {
     @Override
     public void addTimeSheetRow(TimeSheetRow timeSheetRow) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(timeSheetRow);
+        session.saveOrUpdate(timeSheetRow);
+        //session.persist(timeSheetRow);
     }
 
     @Override
