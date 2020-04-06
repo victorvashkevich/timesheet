@@ -35,11 +35,11 @@
     </tr>
     <c:forEach var="timeSheetRow" items="${timeSheetRows}" varStatus="counter">
         <tr>
-            <td class="timeSheetTd">${counter.count}</td>
+            <td class="timeSheetTd" id="">${counter.count}</td>
             <td class="timeSheetTdEmployee">${timeSheetRow.employee}</td>
             <c:forEach var="j" begin="1" end="${timeSheet.numberOfDays}">
                 <c:set var="myvar" scope="page" value="day${j}"/>
-                <td class="timeSheetTd">${timeSheetRow[myvar]}</td>
+                <td class="timeSheetTdDay">${timeSheetRow[myvar]}</td>
             </c:forEach>
             <td class="timeSheetTd">
                 <a href="/${timeSheet.department.id}/${timeSheet.id}/${timeSheetRow.id}">Изменить</a>
@@ -89,7 +89,7 @@
                     $('#selectEmployee'+rowCount).append('<option value="'+employee.id+'">'+employee.name+'</option>');
                 })
                 for (let i=1; i<=31;i++) {
-                    $('#newTr'+rowCount).append('<td class="timeSheetTd"><input type="text" size="4" id="inp'+rowCount+i+'"></td>');
+                    $('#newTr'+rowCount).append('<td class="timeSheetTdDay"><input type="text" size="4" id="inp'+rowCount+i+'"></td>');
                 }
                 $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="saveLink">Сохранить</a></td>');
                 $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="deleteLink">Удалить</a></td>');
@@ -163,24 +163,46 @@
             data: rowJSON,
             contentType: 'application/json',
             success: function (data) {
-                $('#dResp').html(data);
                 for (let i=1; i<=31; i++) {
                     $('#inp'+cellHtml+i).parent().html($('#inp'+cellHtml+i).val());
                     $('#inp'+cellHtml+i).remove();
                     $('#selectEmployee'+cellHtml).parent().html($('#selectEmployee'+cellHtml+' option:selected').html());
                     $('#selectEmployee'+cellHtml+' option:selected').remove();
-                    rowIdTd.val(data); //вернули с бэка номер строки
-                    row.find('.deleteLink').attr("href", "/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
-                    row.find('.saveLink').html("Изменить");
                 }
+                rowIdTd.val(data); //вернули с бэка номер строки
+                row.find('.deleteLink').attr("href", "/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
+                //row.find('.saveLink').html("Изменить");
+                let saveEditLink = row.find('.saveLink');
+                saveEditLink.removeClass("saveLink");
+                saveEditLink.addClass("editLink");
+                saveEditLink.html("Изменить");
             },
             error: function (e) {
                 $('#dResp').html(e.responseText);
             }
         })
     })
+
     $('#timeSheetTable').on('click','.deleteLink', function () {
         return confirm("Удалить строку?")
+    })
+
+    $('#timeSheetTable').on('click','.editLink', function () {
+
+        let row = $(this).closest('tr');
+        let rowNumber =$('td', row).eq(0).html();
+        let saveEditLink = row.find('.editLink');
+        saveEditLink.removeClass("editLink");
+        saveEditLink.addClass("saveLink");
+        saveEditLink.html("Сохранить");
+        let i = 1;
+        $('td.timeSheetTdDay',row).each(function () {
+            let dayVal = $(this).html();
+            $(this).html("");
+            $(this).append('<input type="text" size="4" id="inp'+rowNumber+i+'" value="'+dayVal+'">');
+            i++;
+        })
+
     })
 </script>
 </body>

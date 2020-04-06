@@ -11,6 +11,13 @@
     text-align: center;
 }
 
+.timeSheetTdDay {
+    border: 1px dotted black;
+    padding: 3px;
+    width: 45px;
+    text-align: center;
+}
+
 .timeSheetTdPeriod {
     border: 1px dotted black;
     padding: 3px;
