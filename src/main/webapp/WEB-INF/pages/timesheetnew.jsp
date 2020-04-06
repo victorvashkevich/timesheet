@@ -82,7 +82,7 @@
                 let rowCount = $('#timeSheetTable tr').length;
                 $('#timeSheetTable').append('<tr id="newTr'+rowCount+'"></tr>');
                 $('#newTr'+rowCount).append('<td class="timeSheetTd">'+rowCount+'</td>');
-                $('#newTr'+rowCount).append('<td class="timeSheetTd" id="empTd'+rowCount+'"></td>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTdEmployee" id="empTd'+rowCount+'"></td>');
                 $('#empTd'+rowCount).append('<select class="selEmp" id="selectEmployee'+rowCount+'"></select>');
                 $.each(data,function (index, employee) {
                     $('#selectEmployee'+rowCount).append('<option value="'+employee.id+'">'+employee.shortName+'</option>');
@@ -146,7 +146,7 @@
         let rowId = $(this).closest('tr').find('#rowId').val();
 
         if (typeof rowId == "undefined") {
-            rowId = 35;
+            rowId = 0;
         }
 
         let row = $(this).closest('tr');
@@ -156,9 +156,6 @@
         let day1val = $('#inp'+cellHtml+'1').val();
         let day2val = $('#inp'+cellHtml+'2').val();
 
-        //let rowJSON = '{"employee":"'+selectedValueEmp+'","timeSheet":'+timeSheetId+',"timeSheetRowId":'+rowId+',';
-        //let rowJSON = '{"employee":{"'+selectedValueEmp+'",';
-        //let rowJSON = '{';
         let rowJSON = '{"employee":{"id":"'+selectedValueEmp+'"},"timeSheet": {"id":'+timeSheetId+'},"id":'+rowId+',';
 
         let timeSheetRowData = {};
@@ -170,13 +167,12 @@
         }
 
         rowJSON = rowJSON.substring(0,rowJSON.length-1)+"}";
-        console.log(rowJSON);
+        //console.log(rowJSON);
         //console.log(JSON.stringify(timeSheetRowData));
 
         $.ajax({
             url: '/fuck3',
             method: 'post',
-            //data: JSON.stringify({employee: selectedValueEmp, timeSheet: timeSheetId, day1: day1val, day2: day2val}),
             //data: '{"id": "eed6fa1c-63a2-11e2-b2bb-00219b8823c5", "name": "Иванов И.И."}',
             //data: '{"id":"eed6fa1c-63a2-11e2-b2bb-00219b8823c5","name":"Вашкевич Виктор Владимирович","shortName":"Вашкевич В. В."}',
             //data: JSON.stringify({id:"eed6fa1c-63a2-11e2-b2bb-00219b8823c5",name:"Вашкевич Виктор Владимирович",shortName:"Вашкевич В. В."}),
@@ -185,6 +181,13 @@
             //data: {employee: selectedValueEmp, timeSheet: timeSheetId, hours: timeSheetRowData},
             success: function (data) {
                 $('#dResp').html(data);
+                for (let i=1; i<=31; i++) {
+                    $('#inp'+cellHtml+i).parent().html($('#inp'+cellHtml+i).val());
+                    $('#inp'+cellHtml+i).remove();
+                    //$('#selectEmployee'+cellHtml).parent().html($('#selectEmployee'+cellHtml+' option:selected').html());
+                    $('#selectEmployee'+cellHtml).parent().html(data.name);
+                    $('#selectEmployee'+cellHtml+' option:selected').remove();
+                }
             },
             error: function (e) {
                 $('#dResp').html(e.responseText);
