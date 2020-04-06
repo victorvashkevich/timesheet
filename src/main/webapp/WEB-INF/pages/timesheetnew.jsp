@@ -45,7 +45,7 @@
                 <a href="/${timeSheet.department.id}/${timeSheet.id}/${timeSheetRow.id}">Изменить</a>
             </td>
             <td class="timeSheetTd">
-                <a href="/${timeSheet.department.id}/${timeSheet.id}/delete/${timeSheetRow.id}/">Удалить</a>
+                <a href="/${timeSheet.department.id}/${timeSheet.id}/delete/${timeSheetRow.id}/" class="deleteLink">Удалить</a>
             </td>
             <td style="display: none" id="rowId">${timeSheetRow.id}</td>
             <c:set var="count" value="${count+1}" scope="page"/>
@@ -85,13 +85,14 @@
                 $('#newTr'+rowCount).append('<td class="timeSheetTdEmployee" id="empTd'+rowCount+'"></td>');
                 $('#empTd'+rowCount).append('<select class="selEmp" id="selectEmployee'+rowCount+'"></select>');
                 $.each(data,function (index, employee) {
-                    $('#selectEmployee'+rowCount).append('<option value="'+employee.id+'">'+employee.shortName+'</option>');
+                    //$('#selectEmployee'+rowCount).append('<option value="'+employee.id+'">'+employee.shortName+'</option>');
+                    $('#selectEmployee'+rowCount).append('<option value="'+employee.id+'">'+employee.name+'</option>');
                 })
                 for (let i=1; i<=31;i++) {
                     $('#newTr'+rowCount).append('<td class="timeSheetTd"><input type="text" size="4" id="inp'+rowCount+i+'"></td>');
                 }
-                $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" id="saveLink">Сохранить</a></td>');
-                $('#newTr'+rowCount).append('<td class="timeSheetTd">Удалить</td>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="saveLink">Сохранить</a></td>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="deleteLink">Удалить</a></td>');
             },
             error: function (e) {
                 $('#dResp').html(e.responseText);
@@ -124,11 +125,6 @@
             dataType: 'json',
             success: function (data) {
 
-                //$('#dResp').html(JSON.stringify(data));
-                //let json = JSON.stringify(data);
-                //alert($(this).closest("tr").id);
-                //alert(data['day1']);
-
                 for (let i=1; i<=31;i++) {
                     $('#inp'+cellHtml+i).val(data['day'+i])
                 }
@@ -139,11 +135,12 @@
         });
 
     });
-    $('#timeSheetTable').on('click','#saveLink', function () {
+    $('#timeSheetTable').on('click','.saveLink', function () {
 
         let selectedValueEmp = $(this).closest('tr').find('.selEmp').val();
         let timeSheetId=$('#timeSheetId').val();
-        let rowId = $(this).closest('tr').find('#rowId').val();
+        let rowIdTd = $(this).closest('tr').find('#rowId');
+        let rowId =rowIdTd .val();
 
         if (typeof rowId == "undefined") {
             rowId = 0;
@@ -152,48 +149,38 @@
         let row = $(this).closest('tr');
         let cellHtml =$('td', row).eq(0).html();
 
-
-        let day1val = $('#inp'+cellHtml+'1').val();
-        let day2val = $('#inp'+cellHtml+'2').val();
-
         let rowJSON = '{"employee":{"id":"'+selectedValueEmp+'"},"timeSheet": {"id":'+timeSheetId+'},"id":'+rowId+',';
-
-        let timeSheetRowData = {};
-
 
         for (let i=1; i<=31; i++) {
             rowJSON=rowJSON+'"day'+i+'":"'+$('#inp'+cellHtml+i).val()+'",';
-            timeSheetRowData['day'+i] = $('#inp'+cellHtml+i).val();
         }
 
         rowJSON = rowJSON.substring(0,rowJSON.length-1)+"}";
-        //console.log(rowJSON);
-        //console.log(JSON.stringify(timeSheetRowData));
 
         $.ajax({
             url: '/fuck3',
             method: 'post',
-            //data: '{"id": "eed6fa1c-63a2-11e2-b2bb-00219b8823c5", "name": "Иванов И.И."}',
-            //data: '{"id":"eed6fa1c-63a2-11e2-b2bb-00219b8823c5","name":"Вашкевич Виктор Владимирович","shortName":"Вашкевич В. В."}',
-            //data: JSON.stringify({id:"eed6fa1c-63a2-11e2-b2bb-00219b8823c5",name:"Вашкевич Виктор Владимирович",shortName:"Вашкевич В. В."}),
             data: rowJSON,
             contentType: 'application/json',
-            //data: {employee: selectedValueEmp, timeSheet: timeSheetId, hours: timeSheetRowData},
             success: function (data) {
                 $('#dResp').html(data);
                 for (let i=1; i<=31; i++) {
                     $('#inp'+cellHtml+i).parent().html($('#inp'+cellHtml+i).val());
                     $('#inp'+cellHtml+i).remove();
-                    //$('#selectEmployee'+cellHtml).parent().html($('#selectEmployee'+cellHtml+' option:selected').html());
-                    $('#selectEmployee'+cellHtml).parent().html(data.name);
+                    $('#selectEmployee'+cellHtml).parent().html($('#selectEmployee'+cellHtml+' option:selected').html());
                     $('#selectEmployee'+cellHtml+' option:selected').remove();
+                    rowIdTd.val(data); //вернули с бэка номер строки
+                    row.find('.deleteLink').attr("href", "/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
+                    row.find('.saveLink').html("Изменить");
                 }
             },
             error: function (e) {
                 $('#dResp').html(e.responseText);
             }
         })
-
+    })
+    $('#timeSheetTable').on('click','.deleteLink', function () {
+        return confirm("Удалить строку?")
     })
 </script>
 </body>

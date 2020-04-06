@@ -250,11 +250,10 @@ public class TimeSheetController {
 //    }
 
     @RequestMapping(value = "/fuck3", method = RequestMethod.POST)
-    public @ResponseBody Employee postFuck2(@RequestBody TimeSheetRow timeSheetRow) {
+    public @ResponseBody int postFuck2(@RequestBody TimeSheetRow timeSheetRow) {
 
         timeSheetService.addTimeSheetRow(timeSheetRow);
-        Employee employee = employeeService.getById(timeSheetRow.getEmployee().getId());
-        return employee;
+        return timeSheetRow.getId();
 
     }
 }
