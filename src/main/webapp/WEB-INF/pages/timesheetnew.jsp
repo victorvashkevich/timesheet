@@ -42,12 +42,13 @@
                 <td class="timeSheetTdDay">${timeSheetRow[myvar]}</td>
             </c:forEach>
             <td class="timeSheetTd">
-                <a href="/${timeSheet.department.id}/${timeSheet.id}/${timeSheetRow.id}">Изменить</a>
+                <a href="/${timeSheet.department.id}/${timeSheet.id}/${timeSheetRow.id}" class="editLink">Изменить</a>
             </td>
             <td class="timeSheetTd">
                 <a href="/${timeSheet.department.id}/${timeSheet.id}/delete/${timeSheetRow.id}/" class="deleteLink">Удалить</a>
             </td>
             <td style="display: none" id="rowId">${timeSheetRow.id}</td>
+            <td style="display: none" id="empId">${timeSheetRow.employee.id}</td>
             <c:set var="count" value="${count+1}" scope="page"/>
         </tr>
     </c:forEach>
@@ -93,6 +94,8 @@
                 }
                 $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="saveLink">Сохранить</a></td>');
                 $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="deleteLink">Удалить</a></td>');
+                $('#newTr'+rowCount).append('<td style="display: none" id="rowId"></td>');
+                $('#newTr'+rowCount).append('<td style="display: none" id="empId"></td>');
             },
             error: function (e) {
                 $('#dResp').html(e.responseText);
@@ -140,15 +143,17 @@
         let selectedValueEmp = $(this).closest('tr').find('.selEmp').val();
         let timeSheetId=$('#timeSheetId').val();
         let rowIdTd = $(this).closest('tr').find('#rowId');
-        let rowId =rowIdTd .val();
+        let rowId = rowIdTd.val();
+        let empIdTd = $(this).closest('tr').find('#empId');
+        let empId = empIdTd.val();
 
-        if (typeof rowId == "undefined") {
-            rowId = 0;
-        }
+        rowId = (rowId == '') ? 0 : rowId;
+        selectedValueEmp = (empId !='') ? empId : selectedValueEmp;
 
         let row = $(this).closest('tr');
         let cellHtml =$('td', row).eq(0).html();
-
+        
+        //let rowJSON = '{"employee":{"id":"'+selectedValueEmp+'"},"timeSheet": {"id":'+timeSheetId+'},"id":'+rowId+',';
         let rowJSON = '{"employee":{"id":"'+selectedValueEmp+'"},"timeSheet": {"id":'+timeSheetId+'},"id":'+rowId+',';
 
         for (let i=1; i<=31; i++) {
@@ -170,6 +175,7 @@
                     $('#selectEmployee'+cellHtml+' option:selected').remove();
                 }
                 rowIdTd.val(data); //вернули с бэка номер строки
+                empIdTd.val(selectedValueEmp);
                 row.find('.deleteLink').attr("href", "/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
                 //row.find('.saveLink').html("Изменить");
                 let saveEditLink = row.find('.saveLink');
