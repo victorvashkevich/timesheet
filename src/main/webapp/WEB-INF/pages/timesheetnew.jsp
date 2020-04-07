@@ -54,14 +54,16 @@
         </tr>
     </c:forEach>
 </table>
+
 <c:url value="/${timeSheet.department.id}/${timeSheet.id}/add" var="addurl"/>
-<a href="${addurl}" id="add1">Добавить строку</a>
+
+<%--<a href="${addurl}">Добавить строку</a> сделаем добавление строки на клиенте--%>
+<a href="#" id="addRow">Добавить строку</a>
 ::
 <a href="/${timeSheet.department.id}/">Назад к табелям</a>
 ::
 <a href="/">Назад к подразделениям</a>
-
-<input type="submit" id="addRow" value="click">
+<%--<input type="submit" id="addRow" value="click"> --%>
 <div id="resp"></div>
 <div id="dResp"></div>
 <script>
@@ -73,14 +75,8 @@
             data: ({
                 id: $('#departmentId').val()
             }),
-           // contentType: 'application/json',
-            //mimeType: 'application/json',
             dataType: 'json',
             success: function (data) {
-              //  $('#resp').html(data);
-                //$('#dResp').html($('#departmentId').val());
-                //let json = JSON.stringify(data);
-                //$('#resp').html(json);
                 let rowCount = $('#timeSheetTable tr').length;
                 $('#timeSheetTable').append('<tr id="newTr'+rowCount+'"></tr>');
                 $('#newTr'+rowCount).append('<td class="timeSheetTd">'+rowCount+'</td>');
@@ -94,7 +90,7 @@
                     $('#newTr'+rowCount).append('<td class="timeSheetTdDay"><input type="text" size="4" id="inp'+rowCount+i+'"></td>');
                 }
                 $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="saveLink">Сохранить</a></td>');
-                $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="deleteLink">Удалить</a></td>');
+                $('#newTr'+rowCount).append('<td class="timeSheetTd"><a href="#" class="cancelLink">Отменить</a></td>');
                 $('#newTr'+rowCount).append('<td style="display: none" id="rowId"></td>');
                 $('#newTr'+rowCount).append('<td style="display: none" id="empId"></td>');
             },
@@ -106,12 +102,6 @@
     $('#timeSheetTable').on('change','.selEmp', function () {
 
         let selectedValue = $('.selEmp option:selected').val();
-        //alert($(this).prop("id"));
-        //alert($(this).closest('tr').prop("id"));
-        $(this).closest('tr').find('td').each(function (cell) {
-            //alert($(this).html())
-            //console.log($(this).html())
-        })
 
         let row = $(this).closest('tr');
         let cellHtml =$('td', row).eq(0).html();
@@ -177,10 +167,17 @@
                 rowIdTd.html(data); //вернули с бэка номер строки
                 empIdTd.html(selectedValueEmp);
                 row.find('.deleteLink').attr("href", "/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
+                console.log("/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
                 let saveEditLink = row.find('.saveLink');
                 saveEditLink.removeClass("saveLink");
                 saveEditLink.addClass("editLink");
                 saveEditLink.html("Изменить");
+
+                let cancelDeleteLink = row.find('.cancelLink');
+                cancelDeleteLink.removeClass("cancelLink");
+                cancelDeleteLink.addClass("deleteLink");
+                cancelDeleteLink.html("Удалить");
+
             },
             error: function (e) {
                 $('#dResp').html(e.responseText);
@@ -200,6 +197,12 @@
         saveEditLink.removeClass("editLink");
         saveEditLink.addClass("saveLink");
         saveEditLink.html("Сохранить");
+
+        let cancelDeleteLink = row.find('.deleteLink');
+        cancelDeleteLink.removeClass("deleteLink");
+        cancelDeleteLink.addClass("cancelLink");
+        cancelDeleteLink.html("Отменить");
+
         let i = 1;
         $('td.timeSheetTdDay',row).each(function () {
             let dayVal = $(this).html();
@@ -207,7 +210,22 @@
             $(this).append('<input type="text" size="4" id="inp'+rowNumber+i+'" value="'+dayVal+'">');
             i++;
         })
+    })
 
+    $('#timeSheetTable').on('click','.cancelLink', function () {
+
+         let rowIdTd = $(this).closest('tr').find('#rowId');
+         let rowId = rowIdTd.html();
+
+         console.log('rowId='+rowId);
+
+         if (rowId=='') {
+             $(this).closest('tr').remove();
+         }
+         else {
+             let cancelLink = $(this).closest('tr').find('.cancelLink');
+             cancelLink.attr('href', "/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/");
+         }
     })
 </script>
 </body>
