@@ -51,26 +51,40 @@ public class TimeSheetRESTController {
         this.timeSheetService = timeSheetService;
     }
 
-    @RequestMapping(value = "/fuck", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody
-    List<Employee> getFuck(@RequestParam("id") String departmentId) {
+    /**
+     * Получает по подразделению всех его сотрудников, возвращает на фронт данные в формате json
+     * @param departmentId - подразделение
+     * @return список сотрудников
+     */
+    @RequestMapping(value = "/addRow", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Employee> addRow(@RequestParam("id") String departmentId) {
 
         Department department = departmentService.getById(departmentId);
         List<Employee> employees = employeeService.getEmployeesByDepartment(department);
         return employees;
     }
 
-    @RequestMapping(value = "/fuck1", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody
-    HoursWorked getFuck1(@RequestParam("employee") Employee employee, @RequestParam("period") String period) {
+    /**
+     * Получает отработанное время сотрудников за период
+     * @param employee сотрудник
+     * @param period период
+     * @return строка с отработанными часами
+     */
+    @RequestMapping(value = "/getHours", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody HoursWorked getHours(@RequestParam("employee") Employee employee, @RequestParam("period") String period) {
 
         HoursWorked hoursWorked = hoursWorkedService.get(employee, period);
         return hoursWorked;
 
     }
 
-    @RequestMapping(value = "/fuck3", method = RequestMethod.POST)
-    public @ResponseBody int postFuck2(@RequestBody TimeSheetRow timeSheetRow) {
+    /**
+     * Сохраняет добавленную строку в базе
+     * @param timeSheetRow строка, переданная с фронта в формате json
+     * @return id добавленной строки для дальнейшей обработки на фронте
+     */
+    @RequestMapping(value = "/saveRow", method = RequestMethod.POST)
+    public @ResponseBody int saveRow(@RequestBody TimeSheetRow timeSheetRow) {
 
         timeSheetService.addTimeSheetRow(timeSheetRow);
         return timeSheetRow.getId();

@@ -63,14 +63,12 @@
 <a href="/${timeSheet.department.id}/">Назад к табелям</a>
 ::
 <a href="/">Назад к подразделениям</a>
-<%--<input type="submit" id="addRow" value="click"> --%>
-<div id="resp"></div>
-<div id="dResp"></div>
+<div id="responseError"></div>
 <script>
     $('#addRow').click(function () {
 
         $.ajax({
-            url: '/fuck',
+            url: '/addRow',
             method: 'get',
             data: ({
                 id: $('#departmentId').val()
@@ -95,7 +93,7 @@
                 $('#newTr'+rowCount).append('<td style="display: none" id="empId"></td>');
             },
             error: function (e) {
-                $('#dResp').html(e.responseText);
+                $('#responseError').html(e.responseText);
             }
         });
     });
@@ -110,7 +108,7 @@
         }
 
         $.ajax({
-            url: '/fuck1',
+            url: '/getHours',
             method: 'get',
             data: ({
                 employee: selectedValue,
@@ -124,7 +122,7 @@
                 }
             },
             error: function (e) {
-                $('#dResp').html(e.responseText);
+                $('#responseError').html(e.responseText);
             }
         });
 
@@ -153,7 +151,7 @@
         rowJSON = rowJSON.substring(0,rowJSON.length-1)+"}";
 
         $.ajax({
-            url: '/fuck3',
+            url: '/saveRow',
             method: 'post',
             data: rowJSON,
             contentType: 'application/json',
@@ -179,13 +177,12 @@
 
             },
             error: function (e) {
-                $('#dResp').html(e.responseText);
+                $('#responseError').html(e.responseText);
             }
         })
     })
 
     $('#timeSheetTable').on('click','.deleteLink', function () {
-        console.log($(this).attr('href'));
         return confirm("Удалить строку?")
     })
 
