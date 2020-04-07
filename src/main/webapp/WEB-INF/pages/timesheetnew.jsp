@@ -166,8 +166,6 @@
                 }
                 rowIdTd.html(data); //вернули с бэка номер строки
                 empIdTd.html(selectedValueEmp);
-                row.find('.deleteLink').attr("href", "/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
-                console.log("/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
                 let saveEditLink = row.find('.saveLink');
                 saveEditLink.removeClass("saveLink");
                 saveEditLink.addClass("editLink");
@@ -176,6 +174,7 @@
                 let cancelDeleteLink = row.find('.cancelLink');
                 cancelDeleteLink.removeClass("cancelLink");
                 cancelDeleteLink.addClass("deleteLink");
+                row.find('.deleteLink').attr("href", "/"+$('#departmentId').val()+"/"+$('#timeSheetId').val()+"/delete/"+data+"/");
                 cancelDeleteLink.html("Удалить");
 
             },
@@ -186,6 +185,7 @@
     })
 
     $('#timeSheetTable').on('click','.deleteLink', function () {
+        console.log($(this).attr('href'));
         return confirm("Удалить строку?")
     })
 
@@ -216,8 +216,6 @@
 
          let rowIdTd = $(this).closest('tr').find('#rowId');
          let rowId = rowIdTd.html();
-
-         console.log('rowId='+rowId);
 
          if (rowId=='') {
              $(this).closest('tr').remove();

@@ -38,17 +38,5 @@
         </tr>
     </c:forEach>
 </table>
-<input type="submit" id="mySubmit" value="departments">
-<script>
-    $("#mySubmit").click(function () {
-        $.ajax({
-            url: "fuck",
-            type: "get",
-            success: function (data) {
-                alert(data);
-            }
-        });
-    })
-</script>
 </body>
 </html>
