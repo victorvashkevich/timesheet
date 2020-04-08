@@ -138,7 +138,7 @@ public class TimeSheetController {
     public ModelAndView addTimeSheet(@ModelAttribute("TimeSheet") TimeSheet timeSheet, @PathVariable String id_department) {
         ModelAndView modelAndView = new ModelAndView();
         //timeSheet.setDepartment(departmentService.getById(id_department));
-        modelAndView.setViewName("redirect:/{id_department}");
+        modelAndView.setViewName("redirect:/{id_department}/");
         timeSheetService.addTimeSheet(timeSheet);
         return modelAndView;
     }
