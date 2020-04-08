@@ -10,9 +10,9 @@
 <html>
 <head>
     <link href="<c:url value="/res/style.css"/>" rel="stylesheet" type="text/css">
-    <script src="/res/scripts.js"> </script>
+    <link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet" type="text/css">
     <script src="/res/jquery-3.4.1.js"></script>
-
+    <script src="/res/js/bootstrap.js"></script>
     <title>Табель:${username}</title>
 </head>
 <body>
@@ -38,5 +38,14 @@
         </tr>
     </c:forEach>
 </table>
+<button type="button" class="btn btn-primary" data-toggle="popover"
+        title="Сообщение" data-content="Ура, Bootstrap 4 работает">
+    Поднеси ко мне курсор
+</button>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover({trigger:'hover'});
+    });
+</script>
 </body>
 </html>
