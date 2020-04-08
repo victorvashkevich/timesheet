@@ -53,6 +53,11 @@ public class TimeSheetController {
         this.timeSheetService = timeSheetService;
     }
 
+    /**
+     * Стартовая страница, авторизуемся используя Spring Security, получаем пользоватетя из модели и по
+     * нему получаем список его подразделений и передаем его в представление
+     * @return
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView startPage() {
 
@@ -73,6 +78,12 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Страница табелей выбранного подразделения, подразделение выбираем из переменной пути и по нему
+     * получаем из модели список табелей и передаем его в представление
+     * @param id_department id подразделения
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/", method = RequestMethod.GET)
     public ModelAndView timeSheetsPage(@PathVariable("id_department") String id_department) {
 
@@ -85,6 +96,12 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Страница редактирования выбранного табеля, по выбранноиму табелю полкучаем все его строки из модели
+     * и передаем его в предаствление
+     * @param id Id табеля
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/{id}/", method = RequestMethod.GET)
     public ModelAndView timeSheetPage(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
@@ -98,6 +115,11 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Страницца добавления табеля для подразделения, подразделение берем из пути
+     * @param id_department id подразделения
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/add",method = RequestMethod.GET)
     public ModelAndView addTimeSheetPage(@PathVariable("id_department") String id_department) {
         ModelAndView modelAndView = new ModelAndView();
@@ -106,6 +128,12 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * ДОбавление табеля в модель
+     * @param timeSheet
+     * @param id_department
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/add",method = RequestMethod.POST)
     public ModelAndView addTimeSheet(@ModelAttribute("TimeSheet") TimeSheet timeSheet, @PathVariable String id_department) {
         ModelAndView modelAndView = new ModelAndView();
@@ -115,6 +143,13 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Страница для редактирования строки табеля (не используется, будем редактировать строку на фронте)
+     * @param id_department id подразделения
+     * @param id_timesheet id табеля
+     * @param id_row id строки табеля
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/{id_timesheet}/{id_row}",method = RequestMethod.GET)
     public ModelAndView editTimeSheetRowPage(@PathVariable String id_department, @PathVariable int id_timesheet, @PathVariable int id_row) {
         ModelAndView modelAndView = new ModelAndView();
@@ -129,6 +164,11 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Изменение  модели строки табеля (не используется, будем изменять строку, используя REST контроллер)
+     * @param timeSheetRow Строка табеля
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/{id_timesheet}/{id_row}",method = RequestMethod.POST)
     public ModelAndView editTimeSheetRow(@ModelAttribute("timeSheetRow") TimeSheetRow timeSheetRow) {
         ModelAndView modelAndView = new ModelAndView();
@@ -137,6 +177,12 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Страница для добавления строки табеля (не используется, будем добавлять строку на фронте)
+     * @param id_department id подразделения
+     * @param id_timesheet id табеля
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/{id_timesheet}/add",method = RequestMethod.GET)
     public ModelAndView addTimeSheetRowPage(@PathVariable String id_department, @PathVariable String id_timesheet) {
         ModelAndView modelAndView = new ModelAndView();
@@ -151,6 +197,13 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Добавление строки табеля в модель (не используется, будем добавлять строку, используя REST контроллер)
+     * @param timeSheetRow
+     * @param id_department
+     * @param id_timesheet
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/{id_timesheet}/add",method = RequestMethod.POST)
     public ModelAndView addTimeSheetRow(@ModelAttribute("TimeSheetRow") TimeSheetRow timeSheetRow,
                                         @PathVariable String id_department, @PathVariable int id_timesheet) {
@@ -168,6 +221,13 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Страница для добавления строки табеля (не используется, т.к. добавлять строку будет на фронте)
+     * @param id_department id подразделения
+     * @param id_timesheet id табеля
+     * @param id_employee id сотрудника
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/{id_timesheet}/add/{id_employee}", method = RequestMethod.GET)
     public ModelAndView addDaysPage(@PathVariable String id_department, @PathVariable int id_timesheet, @PathVariable String id_employee) {
         ModelAndView modelAndView = new ModelAndView();
@@ -184,6 +244,13 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Добавление в модель строки табеля (не используется, т.к. строку будем добавлять через REST контроллер)
+     * @param timeSheetRow строка табеля
+     * @param id_timesheet id табеля
+     * @param id_employee id сотрудника
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/{id_timesheet}/add/{id_employee}", method = RequestMethod.POST)
     public ModelAndView addDays(@ModelAttribute("TimeSheetRow") TimeSheetRow timeSheetRow, @PathVariable int id_timesheet, @PathVariable String id_employee) {
         ModelAndView modelAndView = new ModelAndView();
@@ -193,6 +260,11 @@ public class TimeSheetController {
         return modelAndView;
     }
 
+    /**
+     * Удаление строки табеля
+     * @param id_row id строки для удаления
+     * @return
+     */
     @RequestMapping(value = "/{id_department}/{id_timesheet}/delete/{id_row}", method = RequestMethod.GET)
     public ModelAndView deleteTimeSheetRow(@PathVariable int id_row) {
 
