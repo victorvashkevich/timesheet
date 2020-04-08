@@ -12,40 +12,22 @@
     <link href="<c:url value="/res/style.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet" type="text/css">
     <script src="/res/jquery-3.4.1.js"></script>
-    <script src="/res/js/bootstrap.js"></script>
+    <script src="/js/bootstrap.js"></script>
     <title>Табель:${username}</title>
 </head>
 <body>
-<div class="headers">${username}</div>
-<div>Доступные подразделения: </div>
-<table>
+<h4>${username}</h4>
+<table class="table table-hover">
+    <thead class="bg-primary text-light">
+        <th>Код</th>
+        <th>Подразделение</th>
+    </thead>
     <c:forEach var="userdepartment" items="${userDepartments}">
     <tr>
-        <!--<td>${userdepartment.code}</td>
-            <td>${userdepartment.name}</td>-->
         <td>${userdepartment.code}</td>
-        <!--<td><a href="/timesheets/${userdepartment.id}">${userdepartment.name}</a></td>-->
-        <td><a href="/${userdepartment.id}/">${userdepartment.name}</a></td>
+        <td><a class="text-dark" href="/${userdepartment.id}/">${userdepartment.name}</a></td>
     </tr>
 </c:forEach>
 </table>
-<br>
-<table>
-    <c:forEach var="user" items="${users}">
-        <tr>
-            <td>${user.name}</td>
-            <td>${user.domain}</td>
-        </tr>
-    </c:forEach>
-</table>
-<button type="button" class="btn btn-primary" data-toggle="popover"
-        title="Сообщение" data-content="Ура, Bootstrap 4 работает">
-    Поднеси ко мне курсор
-</button>
-<script>
-    $(function () {
-        $('[data-toggle="popover"]').popover({trigger:'hover'});
-    });
-</script>
 </body>
 </html>
